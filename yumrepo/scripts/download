@@ -1,0 +1,15 @@
+#!/bin/bash
+
+
+ROOTDIR=/usr/share/nginx/html/7
+
+download_files() {
+	echo "start download $* ..."
+	test ! -d $ROOTDIR && mkdir -p $ROOTDIR
+	yum install -y --nogpgcheck --downloadonly --downloaddir=$ROOTDIR $*
+	echo "finish download $* ."
+	createrepo $ROOTDIR
+}
+
+download_files $*
+
