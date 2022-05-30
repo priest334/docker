@@ -18,7 +18,7 @@ process_is_running() {
 
 trap "exit" SIGINT
 start() {
-	yum makecache
+	yum makecache fast
 	while true; do
 		if ! process_is_running nginx; then
 			createrepo $ROOTDIR
