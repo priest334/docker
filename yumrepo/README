@@ -1,18 +1,11 @@
 # run as master
-docker run --name=yumrepo.wthmox -it --rm --privileged=true -v $(pwd)/downloads:/usr/share/nginx/html/7 -p 80:80 -d wthmox/yumrepo
-
-# download package
-docker run -it --rm --privileged=true -v $(pwd)/downloads:/usr/share/nginx/html/7 -d wthmox/yumrepo download nginx
+docker run --name=wthmox.yumrepo -it --restart=always -d --privileged=true -v $(pwd)/root:/yumrepo -p 172.28.128.188:80:80 wthmox/yumrepo
 
 # add external repo to running container
-docker exec -it yumrepo.wthmox yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+docker exec -it wthmox.yumrepo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
 # download packages in the running container
-docker exec -it yumrepo.wthmox download docker-ce docker-ce-cli containerd.io docker-compose-plugin
+docker exec -it wthmox.yumrepo download docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
-# add external repo permanently
-curl -SL "https://download.docker.com/linux/centos/docker-ce.repo" -o etc/yum.repos.d/docker-ce.repo
-make yumrepo
-# and then run the docker image
 
 

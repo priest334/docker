@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-ROOTDIR=/usr/share/nginx/html/7
+ROOTDIR=/yumrepo/7
 
 download_files() {
 	echo "start download $* ..."

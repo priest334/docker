@@ -1,12 +1,17 @@
 #!/bin/bash
 
+set -x
 if ! id -u nginx >/dev/null 2>&1; then
         useradd -s /sbin/nologin -M nginx
 fi
 mkdir -p /var/log/nginx && chown -R nginx:nginx /var/log/nginx
 mkdir -p /var/lib/nginx/tmp && chown -R nginx:nginx /var/lib/nginx
 
-ROOTDIR=/usr/share/nginx/html/7
+ROOTDIR=/yumrepo/7
+
+if [ ! -d "$ROOTDIR" ]; then
+	mkdir -p "$ROOTDIR"
+fi
 
 process_is_running() {
         ret=$(pgrep -x $1)
@@ -16,7 +21,6 @@ process_is_running() {
         return 0
 }
 
-trap "exit" SIGINT
 start() {
 	yum makecache fast
 	while true; do
@@ -31,15 +35,7 @@ start() {
 if [ -z "$*" ]; then
 	start
 else
-	case "$1" in
-		"download")
-			shift 1
-			download $@
-			;;
-		?)
-			exec "$@"
-			;;
-	esac
+	exec $*
 fi
 
 
