@@ -14,6 +14,7 @@ COPY --from=builder /usr/bin/createrepo /usr/bin/
 COPY --from=builder /usr/share/createrepo/ /usr/share/createrepo/
 COPY --from=builder /usr/sbin/nginx /usr/sbin/
 COPY --from=builder /etc/nginx/ /etc/nginx
+COPY --from=builder /etc/yum.repos.d/ /etc/yum.repos.d/
 COPY runtime/ / 
 
 EXPOSE 80
