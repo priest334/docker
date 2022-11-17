@@ -22,7 +22,6 @@ process_is_running() {
 }
 
 start() {
-	yum makecache fast
 	while true; do
 		if ! process_is_running nginx; then
 			createrepo $ROOTDIR
